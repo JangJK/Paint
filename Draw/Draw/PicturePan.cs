@@ -18,17 +18,19 @@ namespace Draw
 {
     public partial class PicturePan : Form
     {
-        string select = "";
-        Point myPoint = new Point(0, 0);
+        private string select = "";
+        private Point myPoint = new Point(0, 0);
 
-        Pen myPen;
-        Pen clearPen;
+        private Pen myPen;
+        private Pen clearPen;
+
+        private Rectangle Rectangle = new Rectangle();//포인트랑 크기
 
 
         private int fastX = 0, fastY = 0;
 
-        LineDataSave psd;
-        List<LineDataSave> saveList = new List<LineDataSave>();
+        private LineDataSave psd;
+        private List<LineDataSave> saveList = new List<LineDataSave>();
 
         private bool selectArea = false;
 
@@ -71,8 +73,6 @@ namespace Draw
         }
 
 
-
-
         private void pictureBox1_Paint(object sender, PaintEventArgs e) //컨트롤을 다시 그리면 발생!
         {
 
@@ -84,7 +84,16 @@ namespace Draw
                 myPen.Color = saveList[i].color;
                 myPen.Width = saveList[i].Width;
 
-                e.Graphics.DrawLine(myPen, saveList[i].firstX, saveList[i].firstY, saveList[i].endX, saveList[i].endY);
+                if (select == "직선" || select == "선" || select == "지우개")
+                {
+                    e.Graphics.DrawLine(myPen, saveList[i].firstX, saveList[i].firstY, saveList[i].endX, saveList[i].endY);
+                }
+
+                if (select == "사각형")
+                {
+                    //e.Graphics.DrawRectangle(myPen, saveList[i].firstX, saveList[i].endY, 500, 500);
+                }
+
             }
 
             myPen.Color = color;
@@ -92,7 +101,14 @@ namespace Draw
 
             if (this.selectArea == true)
             {
-                e.Graphics.DrawLine(myPen, ps, pe2);
+                if (select == "직선" || select == "선" || select == "지우개")
+                {
+                    e.Graphics.DrawLine(myPen, ps, pe2);
+                }
+                if (select == "사각형")
+                {
+                    e.Graphics.DrawLine(myPen, ps, pe2);
+                }
             }
         }
 
@@ -115,7 +131,7 @@ namespace Draw
                             psd.firstY = e.Y;
                             psd.endX = myPoint.X;
                             psd.endY = myPoint.Y;
-                       
+
                             psd.color = myPen.Color;
                             psd.Width = myPen.Width;
 
@@ -155,6 +171,16 @@ namespace Draw
                         myPoint = e.Location;
                     }
                     break;
+                case "사각형":
+
+
+
+
+                    pictureBox1.Invalidate();
+
+                    break;
+                case "원":
+                    break;
             }
         }
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -166,8 +192,6 @@ namespace Draw
                     break;
 
                 case "직선":
-
-
                     if (fastX == 0 && fastY == 0)
                     {
                         psd = new LineDataSave(); //클릭할때마다 세로운 객채를 생성하여 거기에 값을 저장 한다.
@@ -194,6 +218,24 @@ namespace Draw
                 case "지우개":
                     myPoint = e.Location;
                     break;
+                case "사각형":
+                    if (fastX == 0 && fastY == 0)
+                    {
+                        psd = new LineDataSave(); //클릭할때마다 세로운 객채를 생성하여 거기에 값을 저장 한다.
+
+                        if (e.Button == MouseButtons.Left)
+                        {
+
+                        
+
+                            pictureBox1.Invalidate();
+
+                        }
+                    }
+                    break;
+                case "원":
+                    break;
+
             }
         }
 
@@ -219,6 +261,19 @@ namespace Draw
                     break;
                 case "지우개":
                     myPoint = e.Location;
+                    break;
+                case "사각형":
+
+              
+
+
+                    saveList.Add(psd);
+                    selectArea = false;
+                    pictureBox1.Invalidate(); //컨트롤의 전체 화면을 무효화하고 컨트롤을 다시 그립니다.
+
+
+                    break;
+                case "원":
                     break;
             }
         }
@@ -254,11 +309,13 @@ namespace Draw
                 case "사각형":
                     select = "사각형";
                     chTxT.Text = "선택 : " + select;
+                    myPen.Color = colorDialog1.Color;
                     break;
 
                 case "원":
                     select = "원";
                     chTxT.Text = "선택 : " + select;
+                    myPen.Color = colorDialog1.Color;
                     break;
             }
         }
@@ -293,15 +350,23 @@ namespace Draw
             choseTool("지우개");
         }
 
-
         private void Strip_REC_Click(object sender, EventArgs e)
         {
+            choseTool("사각형");
+        }
+        private void Menu_REC_Click(object sender, EventArgs e)
+        {
+            choseTool("사각형");
+        }
 
+        private void Menu_Circle_Click(object sender, EventArgs e)
+        {
+            choseTool("원");
         }
 
         private void Strip_Circle_Click(object sender, EventArgs e)
         {
-
+            choseTool("원");
         }
 
 
@@ -339,10 +404,5 @@ namespace Draw
             myPen.Width = 1;
 
         }
-
-
-
-
-
     }
 }

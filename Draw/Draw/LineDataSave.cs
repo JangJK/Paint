@@ -19,7 +19,13 @@ namespace Draw
         public int endX = 0;
         public int endY = 0;
 
-      
+      //  public Point ps;
+      //  public Point pe;
+
+    
+
+      //  public int recWidth = 0;
+      //  public int recHeight = 0;
 
     }
 }

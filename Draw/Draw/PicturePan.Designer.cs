@@ -51,6 +51,8 @@ namespace Draw
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.Strip_REC = new System.Windows.Forms.ToolStripButton();
             this.Strip_Circle = new System.Windows.Forms.ToolStripButton();
+            this.Menu_REC = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Circle = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.DrawPan.SuspendLayout();
@@ -75,7 +77,9 @@ namespace Draw
             this.Menu_Tool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Tool_Pencil,
             this.Menu_Line,
-            this.Menu_Clear});
+            this.Menu_Clear,
+            this.Menu_REC,
+            this.Menu_Circle});
             this.Menu_Tool.Name = "Menu_Tool";
             this.Menu_Tool.Size = new System.Drawing.Size(43, 20);
             this.Menu_Tool.Text = "도구";
@@ -83,21 +87,21 @@ namespace Draw
             // Tool_Pencil
             // 
             this.Tool_Pencil.Name = "Tool_Pencil";
-            this.Tool_Pencil.Size = new System.Drawing.Size(110, 22);
+            this.Tool_Pencil.Size = new System.Drawing.Size(152, 22);
             this.Tool_Pencil.Text = "연필";
             this.Tool_Pencil.Click += new System.EventHandler(this.Tool_Pencil_Click);
             // 
             // Menu_Line
             // 
             this.Menu_Line.Name = "Menu_Line";
-            this.Menu_Line.Size = new System.Drawing.Size(110, 22);
+            this.Menu_Line.Size = new System.Drawing.Size(152, 22);
             this.Menu_Line.Text = "직선";
             this.Menu_Line.Click += new System.EventHandler(this.Menu_Line_Click);
             // 
             // Menu_Clear
             // 
             this.Menu_Clear.Name = "Menu_Clear";
-            this.Menu_Clear.Size = new System.Drawing.Size(110, 22);
+            this.Menu_Clear.Size = new System.Drawing.Size(152, 22);
             this.Menu_Clear.Text = "지우개";
             this.Menu_Clear.Click += new System.EventHandler(this.Menu_Clear_Click);
             // 
@@ -270,6 +274,20 @@ namespace Draw
             this.Strip_Circle.Text = "원";
             this.Strip_Circle.Click += new System.EventHandler(this.Strip_Circle_Click);
             // 
+            // Menu_REC
+            // 
+            this.Menu_REC.Name = "Menu_REC";
+            this.Menu_REC.Size = new System.Drawing.Size(152, 22);
+            this.Menu_REC.Text = "사각형";
+            this.Menu_REC.Click += new System.EventHandler(this.Menu_REC_Click);
+            // 
+            // Menu_Circle
+            // 
+            this.Menu_Circle.Name = "Menu_Circle";
+            this.Menu_Circle.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Circle.Text = "원";
+            this.Menu_Circle.Click += new System.EventHandler(this.Menu_Circle_Click);
+            // 
             // PicturePan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -324,6 +342,8 @@ namespace Draw
         private ToolStripMenuItem Nomal;
         private ToolStripButton Strip_REC;
         private ToolStripButton Strip_Circle;
+        private ToolStripMenuItem Menu_REC;
+        private ToolStripMenuItem Menu_Circle;
 
 
 
