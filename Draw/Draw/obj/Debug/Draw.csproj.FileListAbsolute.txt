@@ -22,3 +22,9 @@ C:\Project\PictureBox\Paint\Draw\Draw\obj\Debug\Draw.pdb
 C:\Project\Paint\Draw\Draw\bin\Debug\Draw.exe.config
 C:\Project\Paint\Draw\Draw\obj\Debug\Draw.exe
 C:\Project\Paint\Draw\Draw\obj\Debug\Draw.pdb
+C:\Project\Paint\Draw\Draw\bin\Debug\Draw.exe
+C:\Project\Paint\Draw\Draw\bin\Debug\Draw.pdb
+C:\Project\Paint\Draw\Draw\obj\Debug\Draw.csprojResolveAssemblyReference.cache
+C:\Project\Paint\Draw\Draw\obj\Debug\Draw.PicturePan.resources
+C:\Project\Paint\Draw\Draw\obj\Debug\Draw.Properties.Resources.resources
+C:\Project\Paint\Draw\Draw\obj\Debug\Draw.csproj.GenerateResource.Cache

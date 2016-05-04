@@ -22,7 +22,7 @@ namespace Draw
         Point myPoint = new Point(0, 0);
 
         Pen myPen;
-        Pen clearPen = new Pen(Color.White);
+        Pen clearPen;
 
 
         private int fastX = 0, fastY = 0;
@@ -45,15 +45,20 @@ namespace Draw
             InitializeComponent();
 
             myPen = new Pen(new SolidBrush(Color.Black));
-            myPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+            clearPen = new Pen(new SolidBrush(Color.Black));
+
             myPen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+            myPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+           
+
+            clearPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+            clearPen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
         }
 
         private void PicturePan_Load(object sender, EventArgs e)
         {
             pcWidth = this.Width;
             pcHeight = this.Height;
-
         }
 
         private void PicturePan_Resize(object sender, EventArgs e)
@@ -72,8 +77,6 @@ namespace Draw
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e) //컨트롤을 다시 그리면 발생!
         {
-            
-
             for (int i = 0; i < saveList.Count; i++)
             {
                e.Graphics.DrawLine(saveList[i].myPen, saveList[i].firstX, saveList[i].firstY, saveList[i].endX, saveList[i].endY);
@@ -227,13 +230,15 @@ namespace Draw
                 case "직선":
                         select = "직선";
                         chTxT.Text = "선택 : " + select;
-                        myPen = new Pen(colorDialog1.Color);
+                        myPen.Color = colorDialog1.Color;
+                      
                     break;
 
                 case "지우개":
                         select = "지우개";
                         chTxT.Text = "선택 : " + select;
-                        clearPen = new Pen(pictureBox1.BackColor, 50);
+                        clearPen.Color = pictureBox1.BackColor;
+                        clearPen.Width = 50;
                     break;
             }
         }
@@ -272,7 +277,7 @@ namespace Draw
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
-                myPen = new Pen(colorDialog1.Color);
+                myPen.Color = colorDialog1.Color;
             }
         }
         //=======================두깨 설정 ============================
