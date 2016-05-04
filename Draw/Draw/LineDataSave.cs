@@ -9,14 +9,17 @@ namespace Draw
 {
     public class LineDataSave
     {
-        public Pen myPen;
 
+        public float Width;
+        public Color color;
 
         public int firstX = 0;
         public int firstY = 0;
 
         public int endX = 0;
         public int endY = 0;
+
+      
 
     }
 }

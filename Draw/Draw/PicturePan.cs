@@ -27,7 +27,7 @@ namespace Draw
 
         private int fastX = 0, fastY = 0;
 
-        LineDataSave psd; //<-= 문제의 녀석 //<== 여기다가 한번 호출 했기때문에 똑같은 값이 계속 들어감 
+        LineDataSave psd;
         List<LineDataSave> saveList = new List<LineDataSave>();
 
         private bool selectArea = false;
@@ -38,8 +38,6 @@ namespace Draw
 
         int pcWidth = 0, pcHeight = 0;
 
-
-
         public PicturePan()
         {
             InitializeComponent();
@@ -49,7 +47,7 @@ namespace Draw
 
             myPen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
             myPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-           
+
 
             clearPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
             clearPen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
@@ -77,20 +75,26 @@ namespace Draw
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e) //컨트롤을 다시 그리면 발생!
         {
+
+            float Width = myPen.Width;
+            Color color = myPen.Color;
+
             for (int i = 0; i < saveList.Count; i++)
             {
-               e.Graphics.DrawLine(saveList[i].myPen, saveList[i].firstX, saveList[i].firstY, saveList[i].endX, saveList[i].endY);
+                myPen.Color = saveList[i].color;
+                myPen.Width = saveList[i].Width;
+
+                e.Graphics.DrawLine(myPen, saveList[i].firstX, saveList[i].firstY, saveList[i].endX, saveList[i].endY);
             }
+
+            myPen.Color = color;
+            myPen.Width = Width;
 
             if (this.selectArea == true)
             {
                 e.Graphics.DrawLine(myPen, ps, pe2);
             }
         }
-
-
-
-
 
         //==============================================================
 
@@ -111,7 +115,10 @@ namespace Draw
                             psd.firstY = e.Y;
                             psd.endX = myPoint.X;
                             psd.endY = myPoint.Y;
-                            psd.myPen = myPen;
+                       
+                            psd.color = myPen.Color;
+                            psd.Width = myPen.Width;
+
                             saveList.Add(psd);
 
                         }
@@ -122,7 +129,6 @@ namespace Draw
 
                 case "직선":
 
-                    //페인트에서만..
                     pe1 = pe2;
                     pe2 = e.Location;
                     pictureBox1.Invalidate();
@@ -141,7 +147,8 @@ namespace Draw
                             psd.firstY = e.Y;
                             psd.endX = myPoint.X;
                             psd.endY = myPoint.Y;
-                            psd.myPen = clearPen;
+                            psd.color = clearPen.Color;
+                            psd.Width = clearPen.Width;
                             saveList.Add(psd);
                         }
                         pictureBox1.Invalidate();
@@ -167,7 +174,6 @@ namespace Draw
 
                         if (e.Button == MouseButtons.Left)
                         {
-
                             selectArea = true;
 
                             fastX = e.X;
@@ -202,14 +208,17 @@ namespace Draw
                 case "직선":
                     psd.endX = e.X;
                     psd.endY = e.Y;
-                    psd.myPen = myPen;
+                    psd.color = myPen.Color;
+                    psd.Width = myPen.Width;
                     saveList.Add(psd);
                     selectArea = false;
                     pictureBox1.Invalidate(); //컨트롤의 전체 화면을 무효화하고 컨트롤을 다시 그립니다.
 
                     fastX = 0;
                     fastY = 0;
-
+                    break;
+                case "지우개":
+                    myPoint = e.Location;
                     break;
             }
         }
@@ -222,23 +231,34 @@ namespace Draw
             switch (str)
             {
                 case "선":
-                        select = "선";
-                        chTxT.Text = "선택 : " + select;
-                      //  myPen = new Pen(Color.Black);
+                    select = "선";
+                    chTxT.Text = "선택 : " + select;
+                    //  myPen = new Pen(Color.Black);
                     break;
 
                 case "직선":
-                        select = "직선";
-                        chTxT.Text = "선택 : " + select;
-                        myPen.Color = colorDialog1.Color;
-                      
+                    select = "직선";
+                    chTxT.Text = "선택 : " + select;
+                    myPen.Color = colorDialog1.Color;
+
                     break;
 
                 case "지우개":
-                        select = "지우개";
-                        chTxT.Text = "선택 : " + select;
-                        clearPen.Color = pictureBox1.BackColor;
-                        clearPen.Width = 50;
+                    select = "지우개";
+                    chTxT.Text = "선택 : " + select;
+                    clearPen.Color = pictureBox1.BackColor;
+                    clearPen.Width = 50;
+                    break;
+
+
+                case "사각형":
+                    select = "사각형";
+                    chTxT.Text = "선택 : " + select;
+                    break;
+
+                case "원":
+                    select = "원";
+                    chTxT.Text = "선택 : " + select;
                     break;
             }
         }
@@ -272,6 +292,19 @@ namespace Draw
         {
             choseTool("지우개");
         }
+
+
+        private void Strip_REC_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Strip_Circle_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
         //=======================색상팔래트============================
         private void ColorChose_Click(object sender, EventArgs e)
         {
@@ -290,22 +323,23 @@ namespace Draw
 
         private void thicknessX2_Click(object sender, EventArgs e)
         {
-           // myPen = new Pen(colorDialog1.Color,20);
+            // myPen = new Pen(colorDialog1.Color,20);
             myPen.Width = 20;
         }
 
         private void thicknessX3_Click(object sender, EventArgs e)
         {
-          //  myPen = new Pen(colorDialog1.Color,30);
+            //  myPen = new Pen(colorDialog1.Color,30);
             myPen.Width = 30;
         }
 
         private void Nomal_Click(object sender, EventArgs e)
         {
-          //   myPen = new Pen(colorDialog1.Color);
+            //   myPen = new Pen(colorDialog1.Color);
             myPen.Width = 1;
-  
+
         }
+
 
 
 

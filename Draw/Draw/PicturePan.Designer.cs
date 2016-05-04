@@ -36,25 +36,26 @@ namespace Draw
             this.ColorChose = new System.Windows.Forms.ToolStripMenuItem();
             this.thickness = new System.Windows.Forms.ToolStripMenuItem();
             this.thicknessX1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.thicknessX2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.thicknessX3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Nomal = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Strip_Pencil = new System.Windows.Forms.ToolStripButton();
             this.Strip_Line = new System.Windows.Forms.ToolStripButton();
             this.Strip_Clear = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.DrawPan = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new Draw.JKPictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.XYLabal = new System.Windows.Forms.ToolStripStatusLabel();
             this.chTxT = new System.Windows.Forms.ToolStripStatusLabel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.thicknessX2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.thicknessX3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new Draw.JKPictureBox();
-            this.Nomal = new System.Windows.Forms.ToolStripMenuItem();
+            this.Strip_REC = new System.Windows.Forms.ToolStripButton();
+            this.Strip_Circle = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.DrawPan.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -129,18 +130,40 @@ namespace Draw
             // thicknessX1
             // 
             this.thicknessX1.Name = "thicknessX1";
-            this.thicknessX1.Size = new System.Drawing.Size(152, 22);
+            this.thicknessX1.Size = new System.Drawing.Size(98, 22);
             this.thicknessX1.Text = "x1";
             this.thicknessX1.Click += new System.EventHandler(this.thicknessX1_Click);
+            // 
+            // thicknessX2
+            // 
+            this.thicknessX2.Name = "thicknessX2";
+            this.thicknessX2.Size = new System.Drawing.Size(98, 22);
+            this.thicknessX2.Text = "x2";
+            this.thicknessX2.Click += new System.EventHandler(this.thicknessX2_Click);
+            // 
+            // thicknessX3
+            // 
+            this.thicknessX3.Name = "thicknessX3";
+            this.thicknessX3.Size = new System.Drawing.Size(98, 22);
+            this.thicknessX3.Text = "x3";
+            this.thicknessX3.Click += new System.EventHandler(this.thicknessX3_Click);
+            // 
+            // Nomal
+            // 
+            this.Nomal.Name = "Nomal";
+            this.Nomal.Size = new System.Drawing.Size(98, 22);
+            this.Nomal.Text = "기본";
+            this.Nomal.Click += new System.EventHandler(this.Nomal_Click);
             // 
             // toolStrip1
             // 
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Strip_Pencil,
-            this.Strip_Line,
             this.Strip_Clear,
-            this.toolStripSeparator1});
+            this.Strip_Line,
+            this.Strip_REC,
+            this.Strip_Circle});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(761, 24);
@@ -177,11 +200,6 @@ namespace Draw
             this.Strip_Clear.Text = "지우개";
             this.Strip_Clear.Click += new System.EventHandler(this.Strip_Clear_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 24);
-            // 
             // DrawPan
             // 
             this.DrawPan.AutoSize = true;
@@ -191,6 +209,19 @@ namespace Draw
             this.DrawPan.Name = "DrawPan";
             this.DrawPan.Size = new System.Drawing.Size(767, 460);
             this.DrawPan.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(764, 457);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // statusStrip1
             // 
@@ -219,39 +250,25 @@ namespace Draw
             this.chTxT.Text = "선택 : ";
             this.chTxT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // thicknessX2
+            // Strip_REC
             // 
-            this.thicknessX2.Name = "thicknessX2";
-            this.thicknessX2.Size = new System.Drawing.Size(152, 22);
-            this.thicknessX2.Text = "x2";
-            this.thicknessX2.Click += new System.EventHandler(this.thicknessX2_Click);
+            this.Strip_REC.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Strip_REC.Image = ((System.Drawing.Image)(resources.GetObject("Strip_REC.Image")));
+            this.Strip_REC.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Strip_REC.Name = "Strip_REC";
+            this.Strip_REC.Size = new System.Drawing.Size(23, 21);
+            this.Strip_REC.Text = "사각형";
+            this.Strip_REC.Click += new System.EventHandler(this.Strip_REC_Click);
             // 
-            // thicknessX3
+            // Strip_Circle
             // 
-            this.thicknessX3.Name = "thicknessX3";
-            this.thicknessX3.Size = new System.Drawing.Size(152, 22);
-            this.thicknessX3.Text = "x3";
-            this.thicknessX3.Click += new System.EventHandler(this.thicknessX3_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(764, 457);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
-            // 
-            // Nomal
-            // 
-            this.Nomal.Name = "Nomal";
-            this.Nomal.Size = new System.Drawing.Size(152, 22);
-            this.Nomal.Text = "기본";
-            this.Nomal.Click += new System.EventHandler(this.Nomal_Click);
+            this.Strip_Circle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Strip_Circle.Image = ((System.Drawing.Image)(resources.GetObject("Strip_Circle.Image")));
+            this.Strip_Circle.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Strip_Circle.Name = "Strip_Circle";
+            this.Strip_Circle.Size = new System.Drawing.Size(23, 21);
+            this.Strip_Circle.Text = "원";
+            this.Strip_Circle.Click += new System.EventHandler(this.Strip_Circle_Click);
             // 
             // PicturePan
             // 
@@ -273,9 +290,9 @@ namespace Draw
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.DrawPan.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,7 +313,6 @@ namespace Draw
         private ToolStripButton Strip_Pencil;
         private ToolStripButton Strip_Line;
         private ToolStripButton Strip_Clear;
-        private ToolStripSeparator toolStripSeparator1;
         private Panel DrawPan;
         private JKPictureBox pictureBox1;
         private StatusStrip statusStrip1;
@@ -306,6 +322,8 @@ namespace Draw
         private ToolStripMenuItem thicknessX2;
         private ToolStripMenuItem thicknessX3;
         private ToolStripMenuItem Nomal;
+        private ToolStripButton Strip_REC;
+        private ToolStripButton Strip_Circle;
 
 
 
