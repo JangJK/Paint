@@ -23,10 +23,7 @@ namespace Draw
 
         private Pen myPen;
         private Pen clearPen;
-
-        private Rectangle Rectangle = new Rectangle();//포인트랑 크기
-
-
+        
         private int fastX = 0, fastY = 0;
 
         private LineDataSave psd;
@@ -84,14 +81,29 @@ namespace Draw
                 myPen.Color = saveList[i].color;
                 myPen.Width = saveList[i].Width;
 
-                if (select == "직선" || select == "선" || select == "지우개")
+                if (saveList[i].select == "직선" || saveList[i].select == "선" || saveList[i].select == "지우개")
                 {
                     e.Graphics.DrawLine(myPen, saveList[i].firstX, saveList[i].firstY, saveList[i].endX, saveList[i].endY);
                 }
 
-                if (select == "사각형")
+                else if (saveList[i].select == "사각형")
                 {
-                    //e.Graphics.DrawRectangle(myPen, saveList[i].firstX, saveList[i].endY, 500, 500);
+                    int resx = Math.Min(saveList[i].firstX, saveList[i].endX);
+                    int resy = Math.Min(saveList[i].firstY, saveList[i].endY);
+
+                    int reswidth = Math.Abs(saveList[i].firstX - saveList[i].endX);
+                    int resheight = Math.Abs(saveList[i].firstY - saveList[i].endY);
+                     e.Graphics.DrawRectangle(myPen,resx,resy,reswidth,resheight);
+                }
+                else if (saveList[i].select == "원")
+                {
+                    int resx = Math.Min(saveList[i].firstX, saveList[i].endX);
+                    int resy = Math.Min(saveList[i].firstY, saveList[i].endY);
+
+                    int reswidth = Math.Abs(saveList[i].firstX - saveList[i].endX);
+                    int resheight = Math.Abs(saveList[i].firstY - saveList[i].endY);
+
+                    e.Graphics.DrawEllipse(myPen, resx, resy, reswidth, resheight);
                 }
 
             }
@@ -107,8 +119,28 @@ namespace Draw
                 }
                 if (select == "사각형")
                 {
-                    e.Graphics.DrawLine(myPen, ps, pe2);
+                    int resx = Math.Min(ps.X, pe1.X);
+                    int resy = Math.Min(ps.Y, pe1.Y);
+
+                    int reswidth = Math.Abs(ps.X - pe1.X);
+                    int resheight = Math.Abs(ps.Y - pe1.Y);
+
+                    e.Graphics.DrawRectangle(myPen, resx, resy, reswidth, resheight);
                 }
+
+
+                else if (select == "원")
+                {
+                    int resx = Math.Min(ps.X, pe1.X);
+                    int resy = Math.Min(ps.Y, pe1.Y);
+
+                    int reswidth = Math.Abs(ps.X - pe1.X);
+                    int resheight = Math.Abs(ps.Y - pe1.Y);
+
+                    e.Graphics.DrawEllipse(myPen, resx, resy, reswidth, resheight);
+                }
+
+
             }
         }
 
@@ -134,6 +166,7 @@ namespace Draw
 
                             psd.color = myPen.Color;
                             psd.Width = myPen.Width;
+                            psd.select = select;
 
                             saveList.Add(psd);
 
@@ -143,6 +176,8 @@ namespace Draw
                     }
                     break;
 
+                case "원":
+                case "사각형":
                 case "직선":
 
                     pe1 = pe2;
@@ -165,22 +200,18 @@ namespace Draw
                             psd.endY = myPoint.Y;
                             psd.color = clearPen.Color;
                             psd.Width = clearPen.Width;
+                            psd.select = select;
+
                             saveList.Add(psd);
                         }
                         pictureBox1.Invalidate();
                         myPoint = e.Location;
                     }
                     break;
-                case "사각형":
+                
 
-
-
-
-                    pictureBox1.Invalidate();
-
-                    break;
-                case "원":
-                    break;
+            
+      
             }
         }
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -190,7 +221,8 @@ namespace Draw
                 case "선":
                     myPoint = e.Location;
                     break;
-
+                case "원":
+                case "사각형":
                 case "직선":
                     if (fastX == 0 && fastY == 0)
                     {
@@ -218,24 +250,6 @@ namespace Draw
                 case "지우개":
                     myPoint = e.Location;
                     break;
-                case "사각형":
-                    if (fastX == 0 && fastY == 0)
-                    {
-                        psd = new LineDataSave(); //클릭할때마다 세로운 객채를 생성하여 거기에 값을 저장 한다.
-
-                        if (e.Button == MouseButtons.Left)
-                        {
-
-                        
-
-                            pictureBox1.Invalidate();
-
-                        }
-                    }
-                    break;
-                case "원":
-                    break;
-
             }
         }
 
@@ -246,12 +260,14 @@ namespace Draw
                 case "선":
                     myPoint = e.Location;
                     break;
-
+                case "원":
+                case "사각형":
                 case "직선":
                     psd.endX = e.X;
                     psd.endY = e.Y;
                     psd.color = myPen.Color;
                     psd.Width = myPen.Width;
+                    psd.select = select;
                     saveList.Add(psd);
                     selectArea = false;
                     pictureBox1.Invalidate(); //컨트롤의 전체 화면을 무효화하고 컨트롤을 다시 그립니다.
@@ -262,19 +278,7 @@ namespace Draw
                 case "지우개":
                     myPoint = e.Location;
                     break;
-                case "사각형":
-
-              
-
-
-                    saveList.Add(psd);
-                    selectArea = false;
-                    pictureBox1.Invalidate(); //컨트롤의 전체 화면을 무효화하고 컨트롤을 다시 그립니다.
-
-
-                    break;
-                case "원":
-                    break;
+    
             }
         }
 
