@@ -37,3 +37,13 @@ C:\Users\haron\Desktop\바탕화면\Paint\Draw\Draw\obj\Debug\Draw.csprojResolve
 C:\Users\haron\Desktop\바탕화면\Paint\Draw\Draw\obj\Debug\Draw.PicturePan.resources
 C:\Users\haron\Desktop\바탕화면\Paint\Draw\Draw\obj\Debug\Draw.Properties.Resources.resources
 C:\Users\haron\Desktop\바탕화면\Paint\Draw\Draw\obj\Debug\Draw.csproj.GenerateResource.Cache
+C:\Users\owner\Desktop\Paint\Draw\Draw\bin\Debug\Draw.exe.config
+C:\Users\owner\Desktop\Paint\Draw\Draw\obj\Debug\Draw.exe
+C:\Users\owner\Desktop\Paint\Draw\Draw\obj\Debug\Draw.pdb
+C:\Users\owner\Desktop\Paint\Draw\Draw\bin\Debug\Draw.exe
+C:\Users\owner\Desktop\Paint\Draw\Draw\bin\Debug\Draw.pdb
+C:\Users\owner\Desktop\Paint\Draw\Draw\obj\Debug\Draw.csprojResolveAssemblyReference.cache
+C:\Users\owner\Desktop\Paint\Draw\Draw\obj\Debug\Draw.PicturePan.resources
+C:\Users\owner\Desktop\Paint\Draw\Draw\obj\Debug\Draw.Properties.Resources.resources
+C:\Users\owner\Desktop\Paint\Draw\Draw\obj\Debug\Draw.csproj.GenerateResource.Cache
+C:\Users\owner\Desktop\Paint\Draw\Draw\bin\Debug\Scroll_PictureBox.dll

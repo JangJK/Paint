@@ -13,11 +13,13 @@ namespace Draw
         public float Width;
         public Color color;
 
-        public int firstX = 0;
-        public int firstY = 0;
+      
 
-        public int endX = 0;
-        public int endY = 0;
+        public float firstX = 0;
+        public float firstY = 0;
+
+        public float endX = 0;
+        public float endY = 0;
 
         public string select = "";
 
