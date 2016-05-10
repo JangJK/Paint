@@ -21,7 +21,7 @@ namespace Draw
     public partial class PicturePan : Form
     {
 
-        Bitmap bitmap = new Bitmap("C:\\Test\\K-001.bmp");
+        
 
         private string select = "";
         private Point myPoint = new Point(0, 0);
@@ -89,10 +89,12 @@ namespace Draw
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e) //컨트롤을 다시 그리면 발생!
         {
+
             Bitmap bmp = new Bitmap(pictureBox1.Width,pictureBox1.Height,e.Graphics);
-          
-           
-            e.Graphics.DrawImage(bitmap, 60, 10);
+
+            /*
+            Bitmap bitmap = new Bitmap("C:\\Test\\K-001.bmp");
+            e.Graphics.DrawImage(bitmap, 60, 10);*/
 
             float Width = myPen.Width;
             Color color = myPen.Color;
@@ -596,22 +598,6 @@ namespace Draw
         {
 
   
-
-            /*SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
-            saveFileDialog1.FilterIndex = 2;
-            saveFileDialog1.RestoreDirectory = true;
-
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-
-                if ((iStream = saveFileDialog1.OpenFile()) != null)
-                {
-                  
-                    iStream.Close();
-                }
-            }
-*/
 
         }
 
