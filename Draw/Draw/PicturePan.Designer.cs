@@ -47,13 +47,15 @@ namespace Draw
             this.Strip_Line = new System.Windows.Forms.ToolStripButton();
             this.Strip_REC = new System.Windows.Forms.ToolStripButton();
             this.Strip_Circle = new System.Windows.Forms.ToolStripButton();
+            this.button_1 = new System.Windows.Forms.ToolStripButton();
             this.DrawPan = new System.Windows.Forms.Panel();
             this.pictureBox1 = new Draw.JKPictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.XYLabal = new System.Windows.Forms.ToolStripStatusLabel();
             this.chTxT = new System.Windows.Forms.ToolStripStatusLabel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.button_1 = new System.Windows.Forms.ToolStripButton();
+            this.saveBMP = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadBMP = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.DrawPan.SuspendLayout();
@@ -80,7 +82,9 @@ namespace Draw
             this.Menu_Line,
             this.Menu_Clear,
             this.Menu_REC,
-            this.Menu_Circle});
+            this.Menu_Circle,
+            this.saveBMP,
+            this.loadBMP});
             this.Menu_Tool.Name = "Menu_Tool";
             this.Menu_Tool.Size = new System.Drawing.Size(43, 20);
             this.Menu_Tool.Text = "도구";
@@ -88,35 +92,35 @@ namespace Draw
             // Tool_Pencil
             // 
             this.Tool_Pencil.Name = "Tool_Pencil";
-            this.Tool_Pencil.Size = new System.Drawing.Size(110, 22);
+            this.Tool_Pencil.Size = new System.Drawing.Size(152, 22);
             this.Tool_Pencil.Text = "연필";
             this.Tool_Pencil.Click += new System.EventHandler(this.Tool_Pencil_Click);
             // 
             // Menu_Line
             // 
             this.Menu_Line.Name = "Menu_Line";
-            this.Menu_Line.Size = new System.Drawing.Size(110, 22);
+            this.Menu_Line.Size = new System.Drawing.Size(152, 22);
             this.Menu_Line.Text = "직선";
             this.Menu_Line.Click += new System.EventHandler(this.Menu_Line_Click);
             // 
             // Menu_Clear
             // 
             this.Menu_Clear.Name = "Menu_Clear";
-            this.Menu_Clear.Size = new System.Drawing.Size(110, 22);
+            this.Menu_Clear.Size = new System.Drawing.Size(152, 22);
             this.Menu_Clear.Text = "지우개";
             this.Menu_Clear.Click += new System.EventHandler(this.Menu_Clear_Click);
             // 
             // Menu_REC
             // 
             this.Menu_REC.Name = "Menu_REC";
-            this.Menu_REC.Size = new System.Drawing.Size(110, 22);
+            this.Menu_REC.Size = new System.Drawing.Size(152, 22);
             this.Menu_REC.Text = "사각형";
             this.Menu_REC.Click += new System.EventHandler(this.Menu_REC_Click);
             // 
             // Menu_Circle
             // 
             this.Menu_Circle.Name = "Menu_Circle";
-            this.Menu_Circle.Size = new System.Drawing.Size(110, 22);
+            this.Menu_Circle.Size = new System.Drawing.Size(152, 22);
             this.Menu_Circle.Text = "원";
             this.Menu_Circle.Click += new System.EventHandler(this.Menu_Circle_Click);
             // 
@@ -240,6 +244,11 @@ namespace Draw
             this.Strip_Circle.Text = "원";
             this.Strip_Circle.Click += new System.EventHandler(this.Strip_Circle_Click);
             // 
+            // button_1
+            // 
+            this.button_1.Name = "button_1";
+            this.button_1.Size = new System.Drawing.Size(23, 21);
+            // 
             // DrawPan
             // 
             this.DrawPan.AutoScroll = true;
@@ -292,7 +301,20 @@ namespace Draw
             this.chTxT.Size = new System.Drawing.Size(150, 17);
             this.chTxT.Text = "선택 : ";
             this.chTxT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-      
+            // 
+            // saveBMP
+            // 
+            this.saveBMP.Name = "saveBMP";
+            this.saveBMP.Size = new System.Drawing.Size(152, 22);
+            this.saveBMP.Text = "저장";
+            this.saveBMP.Click += new System.EventHandler(this.saveBMP_Click);
+            // 
+            // loadBMP
+            // 
+            this.loadBMP.Name = "loadBMP";
+            this.loadBMP.Size = new System.Drawing.Size(152, 22);
+            this.loadBMP.Text = "불러오기";
+            this.loadBMP.Click += new System.EventHandler(this.loadBMP_Click);
             // 
             // PicturePan
             // 
@@ -352,6 +374,8 @@ namespace Draw
         private ToolStripMenuItem Menu_REC;
         private ToolStripMenuItem Menu_Circle;
         private ToolStripButton button_1;
+        private ToolStripMenuItem saveBMP;
+        private ToolStripMenuItem loadBMP;
 
 
 

@@ -14,6 +14,7 @@ using System.Collections;
 
 using System.Runtime.InteropServices;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace Draw
 {
@@ -169,6 +170,9 @@ namespace Draw
 
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
+
+
+
             pictureBox1.Focus();
             if (pictureBox1.Focused == true)
             {
@@ -186,13 +190,25 @@ namespace Draw
         private void zoomIn()
         {
             zoomAtion = true;
-            zoomScale = zoomScale * 1.2F;
+            zoomScale = zoomScale * 1.25F;
+
+            Console.WriteLine("줌인 : " + zoomScale);
+
             pictureBox1.Invalidate();
         }
         private void zoomOut()
         {
             zoomAtion = true;
-            zoomScale = zoomScale / 1.2F;
+            zoomScale = zoomScale /1.25F;
+
+            if (zoomScale == 0)
+            {
+                zoomScale = 1.25F;
+            }
+
+
+            Console.WriteLine("줌아웃 : " + zoomScale);
+
             pictureBox1.Invalidate();
         }
 
@@ -202,6 +218,7 @@ namespace Draw
             if (e.Button == MouseButtons.Right)
             {
                 panAtion = true;
+                this.Cursor = System.Windows.Forms.Cursors.Hand;
                 fastX = e.X;
                 fastY = e.Y;
 
@@ -258,9 +275,6 @@ namespace Draw
                 }
             }
         }
-
-
-
         //==============================================================
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -289,8 +303,8 @@ namespace Draw
 
                             if (myPoint != new Point(0, 0))
                             {
-                                psd.firstX = e.X;
-                                psd.firstY = e.Y;
+                                psd.firstX = e.X - move_X;
+                                psd.firstY = e.Y - move_Y;
                                 psd.endX = myPoint.X;
                                 psd.endY = myPoint.Y;
 
@@ -393,6 +407,7 @@ namespace Draw
                 fastY = e.Y;
 
                 panAtion = false;
+                this.Cursor = System.Windows.Forms.Cursors.Default;
 
                 pictureBox1.Invalidate();
 
@@ -470,6 +485,9 @@ namespace Draw
                     chTxT.Text = "선택 : " + select;
                     clearPen.Color = pictureBox1.BackColor;
                     clearPen.Width = 50;
+
+                   /* Rectangle eraser = new*/
+
                     break;
 
 
@@ -565,7 +583,55 @@ namespace Draw
         private void Nomal_Click(object sender, EventArgs e)
         {
             myPen.Width = 1;
+        }
 
+        //=======================파일 저장 ============================
+
+        Stream iStream;
+        private void saveBMP_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+                if ((iStream = saveFileDialog1.OpenFile()) != null)
+                {
+
+
+                    iStream.Close();
+                }
+            }
+        }
+
+        private void loadBMP_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((iStream = openFileDialog1.OpenFile()) != null)
+                    {
+                        using (iStream)
+                        {
+
+
+                            iStream.Close();
+                        }
+                    }
+                }
+                catch {}
+
+            }
         }
     }
 }
