@@ -292,16 +292,7 @@ namespace Draw
             this.chTxT.Size = new System.Drawing.Size(150, 17);
             this.chTxT.Text = "선택 : ";
             this.chTxT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button_1
-            // 
-            this.button_1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.button_1.Image = ((System.Drawing.Image)(resources.GetObject("button_1.Image")));
-            this.button_1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.button_1.Name = "button_1";
-            this.button_1.Size = new System.Drawing.Size(23, 21);
-            this.button_1.Text = "이동";
-            this.button_1.Click += new System.EventHandler(this.button_1_Click);
+      
             // 
             // PicturePan
             // 

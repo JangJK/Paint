@@ -19,13 +19,14 @@ namespace Draw
 {
     public partial class PicturePan : Form
     {
-        private string select = "이동";
+        private string select = "";
         private Point myPoint = new Point(0, 0);
 
         private Pen myPen;
         private Pen clearPen;
 
         private float fastX = 0, fastY = 0;
+        private float endX = 0, endY = 0;
 
         private LineDataSave psd;
         private List<LineDataSave> saveList = new List<LineDataSave>();
@@ -46,11 +47,10 @@ namespace Draw
         private float move_X = 0;
         private float move_Y = 0;
 
-       
 
         public PicturePan()
         {
-           
+
             InitializeComponent();
 
             myPen = new Pen(new SolidBrush(Color.Black));
@@ -94,58 +94,12 @@ namespace Draw
                 myPen.Color = saveList[i].color;
                 myPen.Width = saveList[i].Width;
 
-
-    
-                
-                // 페인트에서 첫번째 저장점 좌표 빼기 현재 좌표 하면 움직인 값이 나오고 ..
-                // 그 뺀값을 맴버변수에 저장해주자.
-                // 그값으로 드로잉만 해주면되
-
-
-                if (saveList[i].select == "직선" || saveList[i].select == "선" || saveList[i].select == "지우개" )
+                if (saveList[i].select == "직선" || saveList[i].select == "선" || saveList[i].select == "지우개")
                 {
-
                     if (zoomAtion == true)
-                        e.Graphics.DrawLine(myPen, saveList[i].firstX * zoomScale, saveList[i].firstY * zoomScale, saveList[i].endX * zoomScale, saveList[i].endY * zoomScale);
+                        e.Graphics.DrawLine(myPen, saveList[i].firstX * zoomScale + move_X, saveList[i].firstY * zoomScale + move_Y, saveList[i].endX * zoomScale + move_X, saveList[i].endY * zoomScale + move_Y);
                     else
-                        e.Graphics.DrawLine(myPen, saveList[i].firstX + a, saveList[i].firstY + a, saveList[i].endX + a, saveList[i].endY + a);
-
-                    //한번더 그려줘서 안되는거임..
-
-
-                    //포문돌고 반복되니깐...
-
-                    //e.Graphics.DrawLine(myPen, saveList[i].firstX + a, saveList[i].firstY + a, saveList[i].endX + a, saveList[i].endY + a);
-                   
-                    
-                    
-                    if (panAtion == true) {
-
-
-
-                        /*    if()
-                            {
-                                      float f_X= saveList[i].firstX + move_X;
-                            float f_Y = saveList[i].firstY + move_Y;
-
-                            float e_X = saveList[i].endX + move_X;
-                            float e_Y= saveList[i].endY + move_Y;
-                       
-                            }else{
-                                saveList[i].firstX = saveList[i].firstX - move_X;
-                                saveList[i].firstY = saveList[i].firstY - move_Y;
-                                saveList[i].endX = saveList[i].endX - move_X;
-                                saveList[i].endY = saveList[i].endY - move_Y;
-                            }
-                         */
-
-
-                      
-
-                    }
-
-                 
-                
+                        e.Graphics.DrawLine(myPen, saveList[i].firstX + move_X, saveList[i].firstY + move_Y, saveList[i].endX + move_X, saveList[i].endY + move_Y);
                 }
 
                 else if (saveList[i].select == "사각형")
@@ -157,23 +111,23 @@ namespace Draw
                     float resheight = Math.Abs(saveList[i].firstY - saveList[i].endY);
 
                     if (zoomAtion == true)
-                        e.Graphics.DrawRectangle(myPen, resx * zoomScale, resy * zoomScale, reswidth * zoomScale, resheight * zoomScale);
+                        e.Graphics.DrawRectangle(myPen, resx * zoomScale + move_X, resy * zoomScale + move_Y, reswidth * zoomScale, resheight * zoomScale);
                     else
-                        e.Graphics.DrawRectangle(myPen, resx, resy, reswidth, resheight);
+                        e.Graphics.DrawRectangle(myPen, resx + move_X, resy + move_Y, reswidth, resheight);
 
                 }
                 else if (saveList[i].select == "원")
                 {
-                    float resx = Math.Min(saveList[i].firstX, saveList[i].endX);
-                    float resy = Math.Min(saveList[i].firstY, saveList[i].endY);
+                    float cx = Math.Min(saveList[i].firstX, saveList[i].endX);
+                    float cy = Math.Min(saveList[i].firstY, saveList[i].endY);
 
-                    float reswidth = Math.Abs(saveList[i].firstX - saveList[i].endX);
-                    float resheight = Math.Abs(saveList[i].firstY - saveList[i].endY);
+                    float cWidth = Math.Abs(saveList[i].firstX - saveList[i].endX);
+                    float cHeight = Math.Abs(saveList[i].firstY - saveList[i].endY);
 
                     if (zoomAtion == true)
-                        e.Graphics.DrawEllipse(myPen, resx * zoomScale, resy * zoomScale, reswidth * zoomScale, resheight * zoomScale);
+                        e.Graphics.DrawEllipse(myPen, cx * zoomScale + move_X, cy * zoomScale + move_Y, cWidth * zoomScale, cHeight * zoomScale);
                     else
-                        e.Graphics.DrawEllipse(myPen, resx, resy, reswidth, resheight);
+                        e.Graphics.DrawEllipse(myPen, cx + move_X, cy + move_Y, cWidth, cHeight);
                 }
             }
 
@@ -181,7 +135,7 @@ namespace Draw
             myPen.Color = color;
             myPen.Width = Width;
 
-            if (this.selectArea == true)
+            if (selectArea)
             {
                 if (select == "직선" || select == "선" || select == "지우개")
                 {
@@ -189,23 +143,25 @@ namespace Draw
                 }
                 if (select == "사각형")
                 {
-                    int resx = Math.Min(ps.X, pe1.X);
-                    int resy = Math.Min(ps.Y, pe1.Y);
+                    float resx = Math.Min(ps.X, pe1.X);
+                    float resy = Math.Min(ps.Y, pe1.Y);
 
-                    int reswidth = Math.Abs(ps.X - pe1.X);
-                    int resheight = Math.Abs(ps.Y - pe1.Y);
+                    float reswidth = Math.Abs(ps.X - pe1.X);
+                    float resheight = Math.Abs(ps.Y - pe1.Y);
+
 
                     e.Graphics.DrawRectangle(myPen, resx, resy, reswidth, resheight);
                 }
                 else if (select == "원")
                 {
-                    int resx = Math.Min(ps.X, pe1.X);
-                    int resy = Math.Min(ps.Y, pe1.Y);
+                    float cx = Math.Min(ps.X, pe1.X);
+                    float cy = Math.Min(ps.Y, pe1.Y);
 
-                    int reswidth = Math.Abs(ps.X - pe1.X);
-                    int resheight = Math.Abs(ps.Y - pe1.Y);
+                    float cWidth = Math.Abs(ps.X - pe1.X);
+                    float cHeight = Math.Abs(ps.Y - pe1.Y);
 
-                    e.Graphics.DrawEllipse(myPen, resx, resy, reswidth, resheight);
+
+                    e.Graphics.DrawEllipse(myPen, cx, cy, cWidth, cHeight);
                 }
             }
         }
@@ -213,110 +169,97 @@ namespace Draw
 
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
-           /* pictureBox1.Focus();
+            pictureBox1.Focus();
             if (pictureBox1.Focused == true)
             {
                 if (e.Delta > 0)
                 {
-                    // Wheel Up 처리 [확대]
                     zoomIn();
                 }
                 else
                 {
-                    // Wheel Down 처리 [축소]
                     zoomOut();
                 }
-            }*/
+            }
 
         }
         private void zoomIn()
         {
             zoomAtion = true;
             zoomScale = zoomScale * 1.2F;
+            pictureBox1.Invalidate();
         }
         private void zoomOut()
         {
             zoomAtion = true;
             zoomScale = zoomScale / 1.2F;
+            pictureBox1.Invalidate();
         }
-
 
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-
-            //맴버변수 하나 만들고 .
-            //마우스 클릭하고움직일때 좌표 팬기능 하기 
-            //만약에 panAtion 이 true 이면 마우스 버튼을 클릭할수 있으며 버튼을 클릭하였을때 첫번째 현제 클릭 값이 저장이된다.
-             /* pictureBox1.Focus();
-              if (pictureBox1.Focused == true)
-              {
-                  if (e.Button == MouseButtons.Right)
-                  {
-                      panAtion = true;
-                  }
-                  pictureBox1.Invalidate();
-              }
-*/
             if (e.Button == MouseButtons.Right)
             {
+                panAtion = true;
+                fastX = e.X;
+                fastY = e.Y;
 
+                pictureBox1.Invalidate();
             }
-            
-
-            switch (select)
+            else
             {
-
-                case "선":
-                    myPoint = e.Location;
-                    break;
-                case "원":
-                case "사각형":
-                case "직선":
-                    if (fastX == 0 && fastY == 0)
-                    {
-                        psd = new LineDataSave(); //클릭할때마다 세로운 객채를 생성하여 거기에 값을 저장 한다.
-
-                        if (e.Button == MouseButtons.Left)
+                switch (select)
+                {
+                    case "선":
+                        myPoint = e.Location;
+                        break;
+                    case "원":
+                    case "사각형":
+                    case "직선":
+                        if (fastX == 0 && fastY == 0)
                         {
-                            selectArea = true;
-                            if (selectArea == true)
+                            psd = new LineDataSave(); //클릭할때마다 세로운 객채를 생성하여 거기에 값을 저장 한다.
+
+                            if (e.Button == MouseButtons.Left)
                             {
-                                fastX = e.X;
-                                fastY = e.Y;
+                                selectArea = true;
+                                if (selectArea)
+                                {
+                                    fastX = e.X - move_X;
+                                    fastY = e.Y - move_Y;
 
-                                psd.firstX = fastX;
-                                psd.firstY = fastY;
+                                    psd.firstX = fastX;
+                                    psd.firstY = fastY;
 
-                                ps.X = e.X;
-                                ps.Y = e.Y;
+                                    ps.X = e.X;
+                                    ps.Y = e.Y;
+
+                                    if (zoomAtion)
+                                    {
+                                        fastX = e.X - move_X; // 현재 좌표에서 움직인만큼 빼야 원점 좌표가 된다. 좌표계 3
+                                        fastY = e.Y - move_Y;
+
+                                        psd.firstX = fastX / zoomScale;
+                                        psd.firstY = fastY / zoomScale;
+
+                                        ps.X = e.X;
+                                        ps.Y = e.Y;
+                                    }
+                                    pictureBox1.Invalidate();
+                                }
                             }
-
-                            if (zoomAtion == true )
-                            {
-                                fastX = e.X;
-                                fastY = e.Y;
-
-                                psd.firstX = fastX / zoomScale;
-                                psd.firstY = fastY / zoomScale;
-
-                                ps.X = e.X;
-                                ps.Y = e.Y;
-                            }
-
-                            pictureBox1.Invalidate();
-
                         }
-                    }
-                    break;
+                        break;
 
-                case "지우개":
-                    myPoint = e.Location;
-                    break;
+                    case "지우개":
+                        myPoint = e.Location;
+                        break;
+                }
             }
         }
 
-  
+
 
         //==============================================================
 
@@ -324,157 +267,186 @@ namespace Draw
         {
             XYLabal.Text = "X : " + e.X + " Y : " + e.Y;
 
-     /*       pictureBox1.Focus();
-            if (pictureBox1.Focused == true)
+            if (panAtion)
             {
-                if ((e.Button & MouseButtons.Right) == MouseButtons.Right)
+                move_X += e.X - fastX;
+                move_Y += e.Y - fastY;
+
+                fastX = e.X;
+                fastY = e.Y;
+
+                pictureBox1.Invalidate();
+            }
+            else
+            {
+
+                switch (select)
                 {
-                    
-                    / *for (int i = 0; i < saveList.Count; i++)
-                    {
-                        move_X = saveList[i].firstX - saveList[i].endX;
-                        move_Y = saveList[i].firstY - saveList[i].endY;
-                    }* /
-                }
-
-            }*/
-
-
-
-         
-            switch (select)
-            {
-                case "선":
-                    if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
-                    {
-                        psd = new LineDataSave();
-
-                        if (myPoint != new Point(0, 0))
+                    case "선":
+                        if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
                         {
-                            psd.firstX = e.X;
-                            psd.firstY = e.Y;
-                            psd.endX = myPoint.X;
-                            psd.endY = myPoint.Y;
+                            psd = new LineDataSave();
 
-                            psd.color = myPen.Color;
-                            psd.Width = myPen.Width;
-                            psd.select = select;
+                            if (myPoint != new Point(0, 0))
+                            {
+                                psd.firstX = e.X;
+                                psd.firstY = e.Y;
+                                psd.endX = myPoint.X;
+                                psd.endY = myPoint.Y;
 
-                            saveList.Add(psd);
+                                psd.color = myPen.Color;
+                                psd.Width = myPen.Width;
+                                psd.select = select;
+                                saveList.Add(psd);
+
+                                if (zoomAtion)
+                                {
+                                    fastX = e.X - move_X; // 현재 좌표에서 움직인만큼 빼야 원점 좌표가 된다. 좌표계 3
+                                    fastY = e.Y - move_Y;
+
+                                    endX = myPoint.X - move_X;
+                                    endY = myPoint.Y - move_Y;
+
+                                    psd.firstX = fastX / zoomScale;
+                                    psd.firstY = fastY / zoomScale;
+                                    psd.endX = endX / zoomScale;
+                                    psd.endY = endY / zoomScale;
+
+                                    psd.color = myPen.Color;
+                                    psd.Width = myPen.Width;
+                                    psd.select = select;
+                                    saveList.Add(psd);
+                                }
+                            }
+
+
+                            myPoint = e.Location;
+                            pictureBox1.Invalidate();
 
                         }
-                        pictureBox1.Invalidate();
-                        myPoint = e.Location;
-                    }
-                    break;
+                        break;
 
-                case "원":
-                case "사각형":
-                case "직선":
-
-                    pe1 = pe2;
-                    pe2 = e.Location;
-                    pictureBox1.Invalidate();
-
-                    break;
-
-                case "지우개":
-
-                    if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
-                    {
-                        psd = new LineDataSave();
-
-                        if (myPoint != new Point(0, 0))
-                        {
-                            psd.firstX = e.X;
-                            psd.firstY = e.Y;
-                            psd.endX = myPoint.X;
-                            psd.endY = myPoint.Y;
-                            psd.color = clearPen.Color;
-                            psd.Width = clearPen.Width;
-                            psd.select = select;
-
-                            saveList.Add(psd);
-                        }
-
-                        myPoint = e.Location;
+                    case "원":
+                    case "사각형":
+                    case "직선":
 
                         pe1 = pe2;
                         pe2 = e.Location;
-
                         pictureBox1.Invalidate();
-                    }
-                    break;
+
+                        break;
+
+                    case "지우개":
+
+                        if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+                        {
+                            psd = new LineDataSave();
+
+                            if (myPoint != new Point(0, 0))
+                            {
+                                psd.firstX = e.X;
+                                psd.firstY = e.Y;
+                                psd.endX = myPoint.X;
+                                psd.endY = myPoint.Y;
+                                psd.color = clearPen.Color;
+                                psd.Width = clearPen.Width;
+                                psd.select = select;
+
+                                saveList.Add(psd);
+
+                                if (zoomAtion)
+                                {
+
+                                    fastX = e.X - move_X; // 현재 좌표에서 움직인만큼 빼야 원점 좌표가 된다. 좌표계 3
+                                    fastY = e.Y - move_Y;
+
+                                    endX = myPoint.X - move_X;
+                                    endY = myPoint.Y - move_Y;
+
+                                    psd.firstX = fastX / zoomScale;
+                                    psd.firstY = fastY / zoomScale;
+                                    psd.endX = endX / zoomScale;
+                                    psd.endY = endY / zoomScale;
+
+                                    psd.color = clearPen.Color;
+                                    psd.Width = clearPen.Width;
+                                    psd.select = select;
+
+                                    saveList.Add(psd);
+                                }
+                            }
+
+                            myPoint = e.Location;
+                            pictureBox1.Invalidate();
+                        }
+                        break;
+                }
             }
         }
 
-        float a = 0;
-
-
-        private void button_1_Click(object sender, EventArgs e)
-        {
-
-            //마우스 드레그한 양만큼
-            a += 10;
-
-            pictureBox1.Invalidate();
-        }
-        
-
-
-       
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
-       /*     pictureBox1.Focus();
-            if (pictureBox1.Focused == true)
+
+            if (panAtion)
             {
-                    panAtion = false;
+                fastX = e.X;
+                fastY = e.Y;
+
+                panAtion = false;
+
+                pictureBox1.Invalidate();
+
+                fastX = 0;
+                fastY = 0;
             }
-           
-*/
-
-            switch (select)
+            else
             {
-              
-                case "선":
-                    myPoint = e.Location;
-                    break;
-                case "원":
-                case "사각형":
-                case "직선":
-                    if (selectArea == true)
-                    {
-                        psd.endX = e.X;
-                        psd.endY = e.Y;
-                        psd.color = myPen.Color;
-                        psd.Width = myPen.Width;
-                        psd.select = select;
-                        saveList.Add(psd);
-                        selectArea = false;
-                    }
-                    if (zoomAtion == true )
-                    {
-                        psd.endX = e.X /zoomScale;
-                        psd.endY = e.Y / zoomScale;
-                        psd.color = myPen.Color;
-                        psd.Width = myPen.Width;
-                        psd.select = select;
-                        saveList.Add(psd);
-                        zoomAtion = false;
-                        selectArea = false;
-                    }
-                    pictureBox1.Invalidate(); //컨트롤의 전체 화면을 무효화하고 컨트롤을 다시 그립니다.
+                switch (select)
+                {
 
-                    fastX = 0;
-                    fastY = 0;
-                    break;
-                case "지우개":
-                    myPoint = e.Location;
-                    break;
+                    case "선":
+                        myPoint = e.Location;
+                        break;
+                    case "원":
+                    case "사각형":
+                    case "직선":
+                        if (selectArea)
+                        {
+                            psd.endX = e.X - move_X;
+                            psd.endY = e.Y - move_Y;
+                            psd.color = myPen.Color;
+                            psd.Width = myPen.Width;
+                            psd.select = select;
+                            saveList.Add(psd);
+                            selectArea = false;
+
+                            if (zoomAtion)
+                            {
+                                endX = e.X - move_X;
+                                endY = e.Y - move_Y;
+
+                                psd.endX = endX / zoomScale;
+                                psd.endY = endY / zoomScale;
+
+                                psd.color = myPen.Color;
+                                psd.Width = myPen.Width;
+                                psd.select = select;
+                                saveList.Add(psd);
+                                selectArea = false;
+                            }
+                        }
+
+                        pictureBox1.Invalidate(); //컨트롤의 전체 화면을 무효화하고 컨트롤을 다시 그립니다.
+
+                        fastX = 0;
+                        fastY = 0;
+                        break;
+                    case "지우개":
+                        myPoint = e.Location;
+                        break;
+                }
             }
         }
-
-
         //====================선,직선,지우개선택=============================
 
         private void choseTool(string str)
@@ -595,15 +567,5 @@ namespace Draw
             myPen.Width = 1;
 
         }
-
-
-
-
-
-
-
-
-
-       
     }
 }
