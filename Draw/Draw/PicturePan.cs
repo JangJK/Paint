@@ -20,12 +20,15 @@ namespace Draw
 {
     public partial class PicturePan : Form
     {
+
+        Bitmap bitmap = new Bitmap("C:\\Test\\K-001.bmp");
+
         private string select = "";
         private Point myPoint = new Point(0, 0);
 
         private Pen myPen;
         private Pen clearPen;
-
+  
         private float fastX = 0, fastY = 0;
         private float endX = 0, endY = 0;
 
@@ -86,6 +89,10 @@ namespace Draw
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e) //컨트롤을 다시 그리면 발생!
         {
+            Bitmap bmp = new Bitmap(pictureBox1.Width,pictureBox1.Height,e.Graphics);
+          
+           
+            e.Graphics.DrawImage(bitmap, 60, 10);
 
             float Width = myPen.Width;
             Color color = myPen.Color;
@@ -165,6 +172,8 @@ namespace Draw
                     e.Graphics.DrawEllipse(myPen, cx, cy, cWidth, cHeight);
                 }
             }
+
+            pictureBox1.Image = bmp;
         }
 
 
@@ -192,7 +201,6 @@ namespace Draw
             zoomAtion = true;
             zoomScale = zoomScale * 1.25F;
 
-            Console.WriteLine("줌인 : " + zoomScale);
 
             pictureBox1.Invalidate();
         }
@@ -205,13 +213,8 @@ namespace Draw
             {
                 zoomScale = 1.25F;
             }
-
-
-            Console.WriteLine("줌아웃 : " + zoomScale);
-
             pictureBox1.Invalidate();
         }
-
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -588,9 +591,13 @@ namespace Draw
         //=======================파일 저장 ============================
 
         Stream iStream;
+
         private void saveBMP_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+  
+
+            /*SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
             saveFileDialog1.FilterIndex = 2;
             saveFileDialog1.RestoreDirectory = true;
@@ -600,38 +607,19 @@ namespace Draw
 
                 if ((iStream = saveFileDialog1.OpenFile()) != null)
                 {
-
-
+                  
                     iStream.Close();
                 }
             }
+*/
+
         }
 
-        private void loadBMP_Click(object sender, EventArgs e)
+        private void openBMP_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    if ((iStream = openFileDialog1.OpenFile()) != null)
-                    {
-                        using (iStream)
-                        {
-
-
-                            iStream.Close();
-                        }
-                    }
-                }
-                catch {}
-
-            }
+            
+          
         }
+    
     }
 }

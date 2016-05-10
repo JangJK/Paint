@@ -49,18 +49,20 @@ namespace Draw
             this.Strip_Circle = new System.Windows.Forms.ToolStripButton();
             this.button_1 = new System.Windows.Forms.ToolStripButton();
             this.DrawPan = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new Draw.JKPictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.XYLabal = new System.Windows.Forms.ToolStripStatusLabel();
             this.chTxT = new System.Windows.Forms.ToolStripStatusLabel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.saveBMP = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadBMP = new System.Windows.Forms.ToolStripMenuItem();
+            this.openBMP = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new Draw.JKPictureBox();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.DrawPan.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -84,7 +86,7 @@ namespace Draw
             this.Menu_REC,
             this.Menu_Circle,
             this.saveBMP,
-            this.loadBMP});
+            this.openBMP});
             this.Menu_Tool.Name = "Menu_Tool";
             this.Menu_Tool.Size = new System.Drawing.Size(43, 20);
             this.Menu_Tool.Text = "도구";
@@ -260,21 +262,6 @@ namespace Draw
             this.DrawPan.Size = new System.Drawing.Size(761, 453);
             this.DrawPan.TabIndex = 0;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(741, 433);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
-            this.pictureBox1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseWheel);
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -306,15 +293,34 @@ namespace Draw
             // 
             this.saveBMP.Name = "saveBMP";
             this.saveBMP.Size = new System.Drawing.Size(152, 22);
-            this.saveBMP.Text = "저장";
+            this.saveBMP.Text = "파일저장";
             this.saveBMP.Click += new System.EventHandler(this.saveBMP_Click);
             // 
-            // loadBMP
+            // openBMP
             // 
-            this.loadBMP.Name = "loadBMP";
-            this.loadBMP.Size = new System.Drawing.Size(152, 22);
-            this.loadBMP.Text = "불러오기";
-            this.loadBMP.Click += new System.EventHandler(this.loadBMP_Click);
+            this.openBMP.Name = "openBMP";
+            this.openBMP.Size = new System.Drawing.Size(152, 22);
+            this.openBMP.Text = "파일열기";
+            this.openBMP.Click += new System.EventHandler(this.openBMP_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(741, 433);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            this.pictureBox1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseWheel);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // PicturePan
             // 
@@ -337,9 +343,9 @@ namespace Draw
             this.toolStrip1.PerformLayout();
             this.DrawPan.ResumeLayout(false);
             this.DrawPan.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -375,7 +381,9 @@ namespace Draw
         private ToolStripMenuItem Menu_Circle;
         private ToolStripButton button_1;
         private ToolStripMenuItem saveBMP;
-        private ToolStripMenuItem loadBMP;
+        private ToolStripMenuItem openBMP;
+        private SaveFileDialog saveFileDialog1;
+        private OpenFileDialog openFileDialog1;
 
 
 
