@@ -34,6 +34,8 @@ namespace Draw
             this.Menu_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_REC = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Circle = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveBMP = new System.Windows.Forms.ToolStripMenuItem();
+            this.openBMP = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Color = new System.Windows.Forms.ToolStripMenuItem();
             this.ColorChose = new System.Windows.Forms.ToolStripMenuItem();
             this.thickness = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,11 +55,9 @@ namespace Draw
             this.XYLabal = new System.Windows.Forms.ToolStripStatusLabel();
             this.chTxT = new System.Windows.Forms.ToolStripStatusLabel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.saveBMP = new System.Windows.Forms.ToolStripMenuItem();
-            this.openBMP = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new Draw.JKPictureBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.pictureBox1 = new Draw.JKPictureBox();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.DrawPan.SuspendLayout();
@@ -94,37 +94,51 @@ namespace Draw
             // Tool_Pencil
             // 
             this.Tool_Pencil.Name = "Tool_Pencil";
-            this.Tool_Pencil.Size = new System.Drawing.Size(152, 22);
+            this.Tool_Pencil.Size = new System.Drawing.Size(122, 22);
             this.Tool_Pencil.Text = "연필";
             this.Tool_Pencil.Click += new System.EventHandler(this.Tool_Pencil_Click);
             // 
             // Menu_Line
             // 
             this.Menu_Line.Name = "Menu_Line";
-            this.Menu_Line.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Line.Size = new System.Drawing.Size(122, 22);
             this.Menu_Line.Text = "직선";
             this.Menu_Line.Click += new System.EventHandler(this.Menu_Line_Click);
             // 
             // Menu_Clear
             // 
             this.Menu_Clear.Name = "Menu_Clear";
-            this.Menu_Clear.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Clear.Size = new System.Drawing.Size(122, 22);
             this.Menu_Clear.Text = "지우개";
             this.Menu_Clear.Click += new System.EventHandler(this.Menu_Clear_Click);
             // 
             // Menu_REC
             // 
             this.Menu_REC.Name = "Menu_REC";
-            this.Menu_REC.Size = new System.Drawing.Size(152, 22);
+            this.Menu_REC.Size = new System.Drawing.Size(122, 22);
             this.Menu_REC.Text = "사각형";
             this.Menu_REC.Click += new System.EventHandler(this.Menu_REC_Click);
             // 
             // Menu_Circle
             // 
             this.Menu_Circle.Name = "Menu_Circle";
-            this.Menu_Circle.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Circle.Size = new System.Drawing.Size(122, 22);
             this.Menu_Circle.Text = "원";
             this.Menu_Circle.Click += new System.EventHandler(this.Menu_Circle_Click);
+            // 
+            // saveBMP
+            // 
+            this.saveBMP.Name = "saveBMP";
+            this.saveBMP.Size = new System.Drawing.Size(122, 22);
+            this.saveBMP.Text = "파일저장";
+            this.saveBMP.Click += new System.EventHandler(this.saveBMP_Click);
+            // 
+            // openBMP
+            // 
+            this.openBMP.Name = "openBMP";
+            this.openBMP.Size = new System.Drawing.Size(122, 22);
+            this.openBMP.Text = "파일열기";
+            this.openBMP.Click += new System.EventHandler(this.openBMP_Click);
             // 
             // Menu_Color
             // 
@@ -289,19 +303,9 @@ namespace Draw
             this.chTxT.Text = "선택 : ";
             this.chTxT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // saveBMP
+            // openFileDialog1
             // 
-            this.saveBMP.Name = "saveBMP";
-            this.saveBMP.Size = new System.Drawing.Size(152, 22);
-            this.saveBMP.Text = "파일저장";
-            this.saveBMP.Click += new System.EventHandler(this.saveBMP_Click);
-            // 
-            // openBMP
-            // 
-            this.openBMP.Name = "openBMP";
-            this.openBMP.Size = new System.Drawing.Size(152, 22);
-            this.openBMP.Text = "파일열기";
-            this.openBMP.Click += new System.EventHandler(this.openBMP_Click);
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // pictureBox1
             // 
@@ -317,10 +321,6 @@ namespace Draw
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             this.pictureBox1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseWheel);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // PicturePan
             // 

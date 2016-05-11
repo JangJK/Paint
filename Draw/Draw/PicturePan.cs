@@ -42,22 +42,32 @@ namespace Draw
         private int pcWidth = 0, pcHeight = 0;
 
         private float zoomScale = 1.25F;
+
         private bool zoomAtion = false;
         private bool panAtion = false;
 
-        //뺄양에 대한 맴버변수
+       //뺄양에 대한 맴버변수
         private float move_X = 0;
         private float move_Y = 0;
 
+       // private Image image;
 
-        private Image image;
         private Bitmap gBitmap;
-       
+
+        private int PBwidth = 0;
+        private int PBheight = 0;
+
         public PicturePan()
         {
-
             InitializeComponent();
-            pictureBox1.Image = new Bitmap(pictureBox1.Width,pictureBox1.Height);
+            PBwidth = pictureBox1.Width;
+            PBheight = pictureBox1.Height;
+
+            gBitmap = new Bitmap(PBwidth, PBheight, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            using (Graphics g = Graphics.FromImage(gBitmap))
+            g.Clear(SystemColors.Window);
+
+            //pictureBox1.Image = new Bitmap(pictureBox1.Width,pictureBox1.Height);
 
             myPen = new Pen(new SolidBrush(Color.Black));
             clearPen = new Pen(new SolidBrush(Color.Black));
@@ -73,9 +83,6 @@ namespace Draw
 
         private void PicturePan_Load(object sender, EventArgs e)
         {
-
-            gBitmap = new Bitmap(pictureBox1.Width,pictureBox1.Height);
-
             pcWidth = this.Width;
             pcHeight = this.Height;
         }
@@ -91,9 +98,32 @@ namespace Draw
             pictureBox1.Height = pcHeight + chHeight;
         }
 
+        //===임시
+        float bit_X = 0;
+        float bit_Y = 0;
+
+        float bit_Width = 0;
+        float bit_height = 0;
        
+        
         private void pictureBox1_Paint(object sender, PaintEventArgs e) //컨트롤을 다시 그리면 발생!
         {
+            //
+            // 4좌표 계 생각 3좌표계랑 4좌표계를 동시있다 생각하고 이미지 비트맵 사이즈만 줌이랑 move 값 더해주면 완성 될듯.
+
+            if (zoomAtion)
+            {
+                bit_Width = PBwidth;
+                bit_height = PBheight;
+
+                e.Graphics.DrawImage(gBitmap, bit_X * zoomScale + move_X, bit_Y * zoomScale + move_Y, bit_Width * zoomScale + move_X, bit_height * zoomScale + move_Y);
+            }else{
+                e.Graphics.DrawImage(gBitmap, new Point(0, 0));
+            }
+
+            
+
+
 
             float Width = myPen.Width;
             Color color = myPen.Color;
@@ -619,10 +649,21 @@ namespace Draw
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 openFileName = openFileDialog1.FileName;
-                image = Image.FromFile(openFileName);
-                this.pictureBox1.Image = image;
-                gBitmap = new Bitmap(image);
+                gBitmap = new Bitmap(openFileName);
+
+
+               // image = Image.FromFile(openFileName);
+               
                 
+
+                // 사진을 불러와서 비트맵으로 바꾼다음에 그래픽스로 그려 줘야 하는건가?
+
+                //pictureBox1.Image = image;
+                //pictureBox1.Image = gBitmap;
+
+                pictureBox1.Invalidate();
+
+                               
             }
 
         }
