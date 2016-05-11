@@ -15,20 +15,18 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace Draw
 {
     public partial class PicturePan : Form
     {
-
-        
-
         private string select = "";
         private Point myPoint = new Point(0, 0);
 
         private Pen myPen;
         private Pen clearPen;
-  
+
         private float fastX = 0, fastY = 0;
         private float endX = 0, endY = 0;
 
@@ -52,10 +50,14 @@ namespace Draw
         private float move_Y = 0;
 
 
+        private Image image;
+        private Bitmap gBitmap;
+       
         public PicturePan()
         {
 
             InitializeComponent();
+            pictureBox1.Image = new Bitmap(pictureBox1.Width,pictureBox1.Height);
 
             myPen = new Pen(new SolidBrush(Color.Black));
             clearPen = new Pen(new SolidBrush(Color.Black));
@@ -71,6 +73,9 @@ namespace Draw
 
         private void PicturePan_Load(object sender, EventArgs e)
         {
+
+            gBitmap = new Bitmap(pictureBox1.Width,pictureBox1.Height);
+
             pcWidth = this.Width;
             pcHeight = this.Height;
         }
@@ -86,15 +91,9 @@ namespace Draw
             pictureBox1.Height = pcHeight + chHeight;
         }
 
-
+       
         private void pictureBox1_Paint(object sender, PaintEventArgs e) //컨트롤을 다시 그리면 발생!
         {
-
-            Bitmap bmp = new Bitmap(pictureBox1.Width,pictureBox1.Height,e.Graphics);
-
-            /*
-            Bitmap bitmap = new Bitmap("C:\\Test\\K-001.bmp");
-            e.Graphics.DrawImage(bitmap, 60, 10);*/
 
             float Width = myPen.Width;
             Color color = myPen.Color;
@@ -140,7 +139,7 @@ namespace Draw
                         e.Graphics.DrawEllipse(myPen, cx + move_X, cy + move_Y, cWidth, cHeight);
                 }
             }
-
+           
 
             myPen.Color = color;
             myPen.Width = Width;
@@ -149,7 +148,7 @@ namespace Draw
             {
                 if (select == "직선" || select == "선" || select == "지우개")
                 {
-                    e.Graphics.DrawLine(myPen, ps, pe2);
+                   e.Graphics.DrawLine(myPen, ps, pe2);
                 }
                 if (select == "사각형")
                 {
@@ -174,10 +173,9 @@ namespace Draw
                     e.Graphics.DrawEllipse(myPen, cx, cy, cWidth, cHeight);
                 }
             }
+            
 
-            pictureBox1.Image = bmp;
         }
-
 
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -209,7 +207,7 @@ namespace Draw
         private void zoomOut()
         {
             zoomAtion = true;
-            zoomScale = zoomScale /1.25F;
+            zoomScale = zoomScale / 1.25F;
 
             if (zoomScale == 0)
             {
@@ -491,7 +489,7 @@ namespace Draw
                     clearPen.Color = pictureBox1.BackColor;
                     clearPen.Width = 50;
 
-                   /* Rectangle eraser = new*/
+                    /* Rectangle eraser = new*/
 
                     break;
 
@@ -592,20 +590,42 @@ namespace Draw
 
         //=======================파일 저장 ============================
 
-        Stream iStream;
+        
 
         private void saveBMP_Click(object sender, EventArgs e)
         {
+            string saveFileName;
+            saveFileDialog1.Filter = "bmp(*.bmp)|*.bmp";
 
-  
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                saveFileName = saveFileDialog1.FileName;
 
+                using (Bitmap bmp = new Bitmap(pictureBox1.Width,pictureBox1.Height))
+                {
+                    pictureBox1.DrawToBitmap(bmp, pictureBox1.ClientRectangle);
+                    bmp.Save(saveFileName,System.Drawing.Imaging.ImageFormat.Bmp);
+                }
+            }
         }
+
+
 
         private void openBMP_Click(object sender, EventArgs e)
         {
-            
-          
+            string openFileName;
+            openFileDialog1.Filter = "bmp(*.bmp)|*.bmp";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                openFileName = openFileDialog1.FileName;
+                image = Image.FromFile(openFileName);
+                this.pictureBox1.Image = image;
+                gBitmap = new Bitmap(image);
+                
+            }
+
         }
-    
+
     }
 }
