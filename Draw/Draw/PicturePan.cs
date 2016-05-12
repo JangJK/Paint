@@ -30,6 +30,8 @@ namespace Draw
         private float fastX = 0, fastY = 0;
         private float endX = 0, endY = 0;
 
+        private float now_X = 0, now_Y = 0;
+
         private LineDataSave psd;
         private List<LineDataSave> saveList = new List<LineDataSave>();
 
@@ -41,7 +43,8 @@ namespace Draw
 
         private int pcWidth = 0, pcHeight = 0;
 
-        private float zoomScale = 1.25F;
+        private float zoomScale = 1.0f;
+       // private float zoomScale = 1;
 
         private bool zoomAtion = false;
         private bool panAtion = false;
@@ -116,13 +119,10 @@ namespace Draw
                 bit_Width = PBwidth;
                 bit_height = PBheight;
 
-                e.Graphics.DrawImage(gBitmap, bit_X * zoomScale + move_X, bit_Y * zoomScale + move_Y, bit_Width * zoomScale + move_X, bit_height * zoomScale + move_Y);
+                e.Graphics.DrawImage(gBitmap, bit_X * zoomScale + move_X, bit_Y * zoomScale + move_Y, bit_Width * zoomScale, bit_height * zoomScale);
             }else{
                 e.Graphics.DrawImage(gBitmap, new Point(0, 0));
             }
-
-            
-
 
 
             float Width = myPen.Width;
@@ -209,40 +209,75 @@ namespace Draw
 
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
-
-
-
             pictureBox1.Focus();
             if (pictureBox1.Focused == true)
             {
                 if (e.Delta > 0)
                 {
-                    zoomIn();
+                    zoomIn(e);
                 }
                 else
                 {
-                    zoomOut();
+                    zoomOut(e);
                 }
             }
 
         }
-        private void zoomIn()
+        private void zoomIn(MouseEventArgs e)
         {
             zoomAtion = true;
-            zoomScale = zoomScale * 1.25F;
+            zoomScale+=0.25f;
+            Console.WriteLine("move : "+now_X);
+            Console.WriteLine("wheel : " + e.X);
 
 
+            if (zoomScale >= 7)
+            {
+                zoomScale = 7;
+
+                move_X = now_X - (now_X * zoomScale);
+                move_Y = now_Y - (now_Y * zoomScale);
+
+                now_X = e.X;
+                now_Y = e.Y;
+            }
+            else
+            {
+                move_X = now_X - (now_X * zoomScale);
+                move_Y = now_Y - (now_Y * zoomScale);
+
+                now_X = e.X;
+                now_Y = e.Y;
+            }
+
+            Console.WriteLine("in : "+zoomScale);
             pictureBox1.Invalidate();
         }
-        private void zoomOut()
+
+        private void zoomOut(MouseEventArgs e)
         {
             zoomAtion = true;
-            zoomScale = zoomScale / 1.25F;
+            zoomScale-=0.25f;
 
-            if (zoomScale == 0)
-            {
-                zoomScale = 1.25F;
-            }
+           if(zoomScale<=0)
+           {
+               zoomScale = 0.25f;
+               move_X = now_X - (e.X * zoomScale);
+               move_Y = now_Y - (e.Y * zoomScale);
+
+               now_X = e.X;
+               now_Y = e.Y;
+           }
+           else
+           {
+               move_X = now_X - (e.X * zoomScale);
+               move_Y = now_Y - (e.Y * zoomScale);
+
+               now_X = e.X;
+               now_Y = e.Y;
+           }
+            Console.WriteLine("out : " + zoomScale);
+
             pictureBox1.Invalidate();
         }
 
@@ -309,10 +344,13 @@ namespace Draw
             }
         }
         //==============================================================
-
+    
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             XYLabal.Text = "X : " + e.X + " Y : " + e.Y;
+
+            now_X = e.X;
+            now_Y = e.Y;
 
             if (panAtion)
             {
